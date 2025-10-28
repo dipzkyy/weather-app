@@ -227,7 +227,7 @@ function App() {
           <footer className={styles.footer}>
             <div className={styles.footerContent}>
               <p>Powered by <strong>React.js</strong> & <strong>OpenWeather API</strong></p>
-              <p>© 2024 Cosmic Weather - Interstellar Weather Analytics</p>
+              <p>© 2025 Weather App - Dipzkyy</p>
             </div>
           </footer>
         </div>
