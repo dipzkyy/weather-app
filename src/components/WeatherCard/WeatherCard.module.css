@@ -1,0 +1,112 @@
+/* src/components/WeatherCard/WeatherCard.module.css */
+.weatherCard {
+  background: linear-gradient(135deg, #74b9ff 0%, #0984e3 100%);
+  border-radius: 20px;
+  padding: 2rem;
+  color: white;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  margin-bottom: 2rem;
+}
+
+.location h2 {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.8rem;
+}
+
+.date {
+  margin: 0;
+  opacity: 0.9;
+  font-size: 1rem;
+}
+
+.weatherMain {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 2rem 0;
+}
+
+.temperature {
+  text-align: center;
+}
+
+.temp {
+  font-size: 4rem;
+  font-weight: 300;
+  line-height: 1;
+}
+
+.feelsLike {
+  margin: 0.5rem 0 0 0;
+  opacity: 0.9;
+  font-size: 1rem;
+}
+
+.weatherInfo {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.weatherIcon {
+  width: 80px;
+  height: 80px;
+}
+
+.weatherCondition {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin: 0 0 0.25rem 0;
+}
+
+.weatherDescription {
+  margin: 0;
+  opacity: 0.9;
+  text-transform: capitalize;
+}
+
+.weatherDetails {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  background: rgba(255, 255, 255, 0.2);
+  padding: 1.5rem;
+  border-radius: 15px;
+  backdrop-filter: blur(10px);
+}
+
+.detailItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.detailLabel {
+  font-size: 0.9rem;
+  opacity: 0.8;
+  margin-bottom: 0.5rem;
+}
+
+.detailValue {
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .weatherMain {
+    flex-direction: column;
+    text-align: center;
+    gap: 1.5rem;
+  }
+  
+  .weatherDetails {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .temp {
+    font-size: 3rem;
+  }
+}
