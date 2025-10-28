@@ -29,15 +29,18 @@ const WeatherCard = ({ weather, show, delay = 0 }) => {
 
   const { main, description, icon } = weatherInfo[0];
 
-  // Calculate day/night based on current time
   const currentTime = new Date().getTime() / 1000;
   const isDay = currentTime > sunrise && currentTime < sunset;
 
   return (
-    <div className={`${styles.weatherCard} ${isVisible ? styles.weatherCardVisible : ''}`}>
+    <div
+      className={`${styles.weatherCard} ${isVisible ? styles.weatherCardVisible : ''}`}
+      style={{ animation: isVisible ? 'slideInUp 0.6s ease-out' : 'none' }}
+    >
       {/* Background Effect */}
       <div className={`${styles.backgroundEffect} ${isDay ? styles.day : styles.night}`}></div>
-      
+
+      {/* Header */}
       <div className={styles.weatherHeader}>
         <div className={styles.location}>
           <h2 className={styles.cityName}>{name}</h2>
@@ -45,32 +48,33 @@ const WeatherCard = ({ weather, show, delay = 0 }) => {
         </div>
         <div className={styles.dateTime}>
           <p className={styles.date}>{formatDate(dt)}</p>
-          <p className={styles.time}>{new Date().toLocaleTimeString('en-US', { 
-            hour: '2-digit', 
-            minute: '2-digit',
-            hour12: true 
-          })}</p>
+          <p className={styles.time}>
+            {new Date().toLocaleTimeString('en-US', {
+              hour: '2-digit',
+              minute: '2-digit',
+              hour12: true
+            })}
+          </p>
         </div>
       </div>
 
+      {/* Main Weather Info */}
       <div className={styles.weatherMain}>
         <div className={styles.temperatureSection}>
           <div className={styles.temperature}>
             <span className={styles.tempValue}>{Math.round(temp)}</span>
             <span className={styles.tempUnit}>°C</span>
           </div>
-          <p className={styles.feelsLike}>
-            Feels like {Math.round(feels_like)}°C
-          </p>
+          <p className={styles.feelsLike}>Feels like {Math.round(feels_like)}°C</p>
           <div className={styles.tempRange}>
             <span className={styles.tempMin}>L: {Math.round(temp_min)}°</span>
             <span className={styles.tempMax}>H: {Math.round(temp_max)}°</span>
           </div>
         </div>
-        
+
         <div className={styles.weatherCondition}>
-          <img 
-            src={getWeatherIcon(icon)} 
+          <img
+            src={getWeatherIcon(icon)}
             alt={description}
             className={styles.weatherIcon}
           />
@@ -81,6 +85,7 @@ const WeatherCard = ({ weather, show, delay = 0 }) => {
         </div>
       </div>
 
+      {/* Grid Info */}
       <div className={styles.weatherGrid}>
         <div className={styles.weatherItem}>
           <div className={styles.weatherIconWrapper}>
@@ -91,7 +96,7 @@ const WeatherCard = ({ weather, show, delay = 0 }) => {
             <span className={styles.itemValue}>{speed} m/s</span>
           </div>
         </div>
-        
+
         <div className={styles.weatherItem}>
           <div className={styles.weatherIconWrapper}>
             <span className={styles.itemIcon}>💧</span>
@@ -101,7 +106,7 @@ const WeatherCard = ({ weather, show, delay = 0 }) => {
             <span className={styles.itemValue}>{humidity}%</span>
           </div>
         </div>
-        
+
         <div className={styles.weatherItem}>
           <div className={styles.weatherIconWrapper}>
             <span className={styles.itemIcon}>🌡️</span>
@@ -111,37 +116,51 @@ const WeatherCard = ({ weather, show, delay = 0 }) => {
             <span className={styles.itemValue}>{pressure} hPa</span>
           </div>
         </div>
-        
+
         <div className={styles.weatherItem}>
           <div className={styles.weatherIconWrapper}>
             <span className={styles.itemIcon}>👁️</span>
           </div>
           <div className={styles.weatherInfo}>
             <span className={styles.itemLabel}>Visibility</span>
-            <span className={styles.itemValue}>{visibility ? (visibility / 1000).toFixed(1) : 'N/A'} km</span>
+            <span className={styles.itemValue}>
+              {visibility ? (visibility / 1000).toFixed(1) : 'N/A'} km
+            </span>
           </div>
         </div>
       </div>
 
-      {/* Additional Info */}
+      {/* Sunrise & Sunset */}
       <div className={styles.additionalInfo}>
         <div className={styles.sunTimes}>
           <div className={styles.sunTime}>
             <span className={styles.sunIcon}>🌅</span>
-            <span>Sunrise: {new Date(sunrise * 1000).toLocaleTimeString('en-US', { 
-              hour: '2-digit', 
-              minute: '2-digit',
-              hour12: true 
-            })}</span>
+            <span>
+              Sunrise:{' '}
+              {new Date(sunrise * 1000).toLocaleTimeString('en-US', {
+                hour: '2-digit',
+                minute: '2-digit',
+                hour12: true
+              })}
+            </span>
           </div>
           <div className={styles.sunTime}>
             <span className={styles.sunIcon}>🌇</span>
-            <span>Sunset: {new Date(sunset * 1000).toLocaleTimeString('en-US', { 
-              hour: '2-digit', 
-              minute: '2-digit',
-              hour12: true 
-            })}</span>
+            <span>
+              Sunset:{' '}
+              {new Date(sunset * 1000).toLocaleTimeString('en-US', {
+                hour: '2-digit',
+                minute: '2-digit',
+                hour12: true
+              })}
+            </span>
           </div>
+        </div>
+
+        {/* Live Indicator */}
+        <div className={styles.liveIndicator}>
+          <div className={styles.liveDot}></div>
+          <span>Live Update</span>
         </div>
       </div>
     </div>

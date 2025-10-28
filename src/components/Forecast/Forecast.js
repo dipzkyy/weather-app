@@ -1,101 +1,152 @@
-// src/components/Forecast/Forecast.js
+// Forecast.jsx
 import React, { useState, useEffect } from 'react';
-import { formatDate, getWeatherIcon } from '../../utils/helpers';
 import styles from './Forecast.module.css';
 
-const Forecast = ({ forecast, show, delay = 0 }) => {
+const Forecast = ({ data = [], title = "7-DAY FORECAST", subtitle = "Extended Weather Outlook" }) => {
   const [isVisible, setIsVisible] = useState(false);
-  const [animatedItems, setAnimatedItems] = useState([]);
+  const [itemsVisible, setItemsVisible] = useState([]);
+
+  // Sample data structure if no data is provided
+  const defaultData = [
+    {
+      id: 1,
+      day: "Monday",
+      date: "Oct 28",
+      icon: "☀️",
+      description: "sunny",
+      tempMax: 28,
+      tempMin: 22,
+      humidity: 65,
+      windSpeed: 12
+    },
+    {
+      id: 2,
+      day: "Tuesday",
+      date: "Oct 29",
+      icon: "⛅",
+      description: "partly cloudy",
+      tempMax: 26,
+      tempMin: 20,
+      humidity: 70,
+      windSpeed: 10
+    },
+    {
+      id: 3,
+      day: "Wednesday",
+      date: "Oct 30",
+      icon: "🌧️",
+      description: "light rain",
+      tempMax: 24,
+      tempMin: 18,
+      humidity: 85,
+      windSpeed: 15
+    },
+    {
+      id: 4,
+      day: "Thursday",
+      date: "Oct 31",
+      icon: "☁️",
+      description: "cloudy",
+      tempMax: 23,
+      tempMin: 17,
+      humidity: 75,
+      windSpeed: 8
+    },
+    {
+      id: 5,
+      day: "Friday",
+      date: "Nov 1",
+      icon: "☀️",
+      description: "sunny",
+      tempMax: 27,
+      tempMin: 21,
+      humidity: 60,
+      windSpeed: 7
+    },
+    {
+      id: 6,
+      day: "Saturday",
+      date: "Nov 2",
+      icon: "🌤️",
+      description: "mostly sunny",
+      tempMax: 26,
+      tempMin: 20,
+      humidity: 65,
+      windSpeed: 9
+    },
+    {
+      id: 7,
+      day: "Sunday",
+      date: "Nov 3",
+      icon: "⛅",
+      description: "partly cloudy",
+      tempMax: 25,
+      tempMin: 19,
+      humidity: 70,
+      windSpeed: 11
+    }
+  ];
+
+  const forecastData = data.length > 0 ? data : defaultData;
 
   useEffect(() => {
-    if (show) {
-      const timer = setTimeout(() => {
-        setIsVisible(true);
-        
-        // Stagger animation for each forecast item
-        const items = [0, 1, 2, 3, 4];
-        const animationPromises = items.map((_, index) => 
-          new Promise(resolve => 
-            setTimeout(() => {
-              setAnimatedItems(prev => [...prev, index]);
-              resolve();
-            }, index * 150 + delay)
-          )
-        );
-      }, delay);
-      return () => clearTimeout(timer);
-    }
-  }, [show, delay]);
+    // Trigger main container animation
+    const timer = setTimeout(() => {
+      setIsVisible(true);
+    }, 100);
 
-  if (!forecast || !forecast.list) return null;
+    // Trigger item animations with delays
+    const itemTimers = forecastData.map((_, index) => 
+      setTimeout(() => {
+        setItemsVisible(prev => [...prev, index]);
+      }, 300 + (index * 100))
+    );
 
-  // Group forecast by day and take one reading per day
-  const dailyForecast = forecast.list.filter((item, index) => index % 8 === 0).slice(0, 5);
+    return () => {
+      clearTimeout(timer);
+      itemTimers.forEach(t => clearTimeout(t));
+    };
+  }, [forecastData.length]);
 
-  const getDayName = (timestamp) => {
-    const date = new Date(timestamp * 1000);
-    const today = new Date();
-    const tomorrow = new Date(today);
-    tomorrow.setDate(tomorrow.getDate() + 1);
-    
-    if (date.toDateString() === today.toDateString()) return 'Today';
-    if (date.toDateString() === tomorrow.toDateString()) return 'Tomorrow';
-    
-    return date.toLocaleDateString('en-US', { weekday: 'short' });
+  const calculateTempPercentage = (min, max) => {
+    const range = max - min;
+    const percentage = (range / 30) * 100; // Assuming 30° is the max range
+    return Math.min(percentage, 100);
   };
 
   return (
     <div className={`${styles.forecast} ${isVisible ? styles.forecastVisible : ''}`}>
       <div className={styles.forecastHeader}>
-        <h3 className={styles.forecastTitle}>5-DAY FORECAST</h3>
-        <div className={styles.forecastSubtitle}>Advanced Weather Prediction</div>
+        <h2 className={styles.forecastTitle}>{title}</h2>
+        <p className={styles.forecastSubtitle}>{subtitle}</p>
       </div>
-      
+
       <div className={styles.forecastList}>
-        {dailyForecast.map((day, index) => (
+        {forecastData.map((day, index) => (
           <div 
-            key={index} 
-            className={`${styles.forecastItem} ${
-              animatedItems.includes(index) ? styles.forecastItemVisible : ''
-            }`}
+            key={day.id || index}
+            className={`${styles.forecastItem} ${itemsVisible.includes(index) ? styles.forecastItemVisible : ''}`}
             style={{ '--delay': `${index * 0.1}s` }}
           >
             <div className={styles.forecastDayInfo}>
-              <p className={styles.forecastDay}>{getDayName(day.dt)}</p>
-              <p className={styles.forecastDate}>
-                {new Date(day.dt * 1000).toLocaleDateString('en-US', { 
-                  month: 'short', 
-                  day: 'numeric' 
-                })}
-              </p>
+              <h3 className={styles.forecastDay}>{day.day}</h3>
+              <p className={styles.forecastDate}>{day.date}</p>
             </div>
-            
+
             <div className={styles.forecastWeather}>
-              <img 
-                src={getWeatherIcon(day.weather[0].icon)} 
-                alt={day.weather[0].description}
-                className={styles.forecastIcon}
-              />
-              <p className={styles.forecastDesc}>
-                {day.weather[0].description}
-              </p>
+              <div className={styles.forecastIcon}>{day.icon}</div>
+              <p className={styles.forecastDesc}>{day.description}</p>
             </div>
-            
+
             <div className={styles.forecastTemp}>
               <div className={styles.tempRange}>
-                <span className={styles.tempMax}>
-                  {Math.round(day.main.temp_max || day.main.temp)}°
-                </span>
-                <span className={styles.tempMin}>
-                  {Math.round(day.main.temp_min || (day.main.temp - 2))}°
-                </span>
+                <span className={styles.tempMax}>{day.tempMax}°</span>
+                <span className={styles.tempMin}>{day.tempMin}°</span>
               </div>
               <div className={styles.tempBar}>
                 <div 
-                  className={styles.tempFill}
-                  style={{ 
-                    width: `${((day.main.temp_max || day.main.temp) - (day.main.temp_min || (day.main.temp - 2))) * 5}%` 
-                  }}
+                  className={styles.tempFill} 
+                  style={{ width: `${calculateTempPercentage(day.tempMin, day.tempMax)}%` }}
                 ></div>
               </div>
             </div>
@@ -103,11 +154,11 @@ const Forecast = ({ forecast, show, delay = 0 }) => {
             <div className={styles.forecastDetails}>
               <div className={styles.detailItem}>
                 <span className={styles.detailIcon}>💧</span>
-                <span>{day.main.humidity}%</span>
+                <span>{day.humidity}%</span>
               </div>
               <div className={styles.detailItem}>
                 <span className={styles.detailIcon}>💨</span>
-                <span>{day.wind.speed}m/s</span>
+                <span>{day.windSpeed} km/h</span>
               </div>
             </div>
           </div>
@@ -116,8 +167,8 @@ const Forecast = ({ forecast, show, delay = 0 }) => {
 
       <div className={styles.forecastFooter}>
         <div className={styles.accuracyIndicator}>
-          <span className={styles.indicatorDot}></span>
-          <span>85% Prediction Accuracy</span>
+          <div className={styles.indicatorDot}></div>
+          <span>High Accuracy Forecast</span>
         </div>
       </div>
     </div>

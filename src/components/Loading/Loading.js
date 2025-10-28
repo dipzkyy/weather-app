@@ -1,4 +1,4 @@
-// src/components/Loading/Loading.js
+// src/components/Loading/Loading.js - UPDATE
 import React from 'react';
 import styles from './Loading.module.css';
 
@@ -16,20 +16,20 @@ const Loading = () => {
         </div>
         
         <div className={styles.loadingText}>
-          <h3 className={styles.loadingTitle}>ANALYZING WEATHER DATA</h3>
-          <p className={styles.loadingSubtitle}>Processing real-time meteorological information</p>
+          <h3 className={styles.loadingTitle}>SCANNING COSMIC DATA</h3>
+          <p className={styles.loadingSubtitle}>Analyzing interstellar weather patterns</p>
         </div>
         
         <div className={styles.progressSection}>
           <div className={styles.progressInfo}>
-            <span className={styles.progressLabel}>DATA INTEGRITY CHECK</span>
-            <span className={styles.progressPercentage}>65%</span>
+            <span className={styles.progressLabel}>STELLAR MAPPING</span>
+            <span className={styles.progressPercentage}>78%</span>
           </div>
           <div className={styles.progressContainer}>
             <div className={styles.progressBar}>
               <div 
                 className={styles.progressFill}
-                style={{ width: '65%' }}
+                style={{ width: '78%' }}
               ></div>
             </div>
           </div>
@@ -37,16 +37,16 @@ const Loading = () => {
         
         <div className={styles.loadingStats}>
           <div className={styles.statItem}>
-            <span className={styles.statIcon}>⚡</span>
-            <span className={styles.statText}>Fetching API</span>
+            <span className={styles.statIcon}>🛰️</span>
+            <span className={styles.statText}>Orbital Scan</span>
           </div>
           <div className={styles.statItem}>
-            <span className={styles.statIcon}>🔍</span>
-            <span className={styles.statText}>Analyzing Patterns</span>
+            <span className={styles.statIcon}>🌌</span>
+            <span className={styles.statText}>Cosmic Analysis</span>
           </div>
           <div className={styles.statItem}>
-            <span className={styles.statIcon}>📊</span>
-            <span className={styles.statText}>Generating Forecast</span>
+            <span className={styles.statIcon}>📡</span>
+            <span className={styles.statText}>Signal Processing</span>
           </div>
         </div>
         

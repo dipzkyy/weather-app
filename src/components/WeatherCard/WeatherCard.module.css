@@ -1,4 +1,21 @@
 /* src/components/WeatherCard/WeatherCard.module.css */
+
+/* CSS Variables untuk konsistensi */
+:root {
+  --primary: #00f5ff;
+  --primary-glow: #00f5ff80;
+  --secondary: #6c63ff;
+  --accent: #ff2e63;
+  --dark: #0a0a0a;
+  --darker: #050505;
+  --card-bg: rgba(255, 255, 255, 0.05);
+  --card-border: rgba(255, 255, 255, 0.1);
+  --text-primary: #ffffff;
+  --text-secondary: #b0b0b0;
+  --gradient: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+  --glow: 0 0 20px var(--primary-glow);
+}
+
 .weatherCard {
   background: var(--card-bg);
   backdrop-filter: blur(20px);
@@ -86,6 +103,8 @@
   font-size: 0.9rem;
   color: var(--text-secondary);
   margin: 0;
+  font-family: 'Courier New', monospace;
+  letter-spacing: 1px;
 }
 
 .weatherMain {
@@ -258,13 +277,58 @@
   font-size: 1.2rem;
 }
 
+.liveIndicator {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  justify-content: center;
+  margin-top: 1rem;
+  padding: 0.5rem 1rem;
+  background: rgba(0, 245, 255, 0.1);
+  border: 1px solid var(--primary);
+  border-radius: 20px;
+  font-size: 0.8rem;
+  color: var(--primary);
+  font-weight: 600;
+}
+
+.liveDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #00ff00;
+  animation: pulse 1.5s infinite;
+}
+
 /* Animations */
 @keyframes float {
   0%, 100% { transform: translateY(0px); }
   50% { transform: translateY(-10px); }
 }
 
-/* Responsive */
+@keyframes pulse {
+  0%, 100% { 
+    opacity: 1;
+    box-shadow: 0 0 10px #00ff00;
+  }
+  50% { 
+    opacity: 0.5;
+    box-shadow: 0 0 5px #00ff00;
+  }
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive Design */
 @media (max-width: 768px) {
   .weatherCard {
     padding: 1.5rem;
@@ -320,5 +384,56 @@
   
   .tempValue {
     font-size: 2.5rem;
+  }
+  
+  .weatherMain {
+    gap: 1rem;
+  }
+  
+  .weatherGrid {
+    gap: 0.75rem;
+  }
+  
+  .weatherItem {
+    padding: 0.75rem;
+  }
+  
+  .liveIndicator {
+    font-size: 0.7rem;
+    padding: 0.4rem 0.8rem;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .weatherCard {
+    border: 2px solid var(--text-primary);
+  }
+  
+  .weatherItem {
+    border: 1px solid var(--text-primary);
+  }
+  
+  .liveIndicator {
+    border: 2px solid var(--primary);
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .weatherCard {
+    transition: none;
+  }
+  
+  .weatherIcon {
+    animation: none;
+  }
+  
+  .weatherItem:hover {
+    transform: none;
+  }
+  
+  .liveDot {
+    animation: none;
   }
 }
