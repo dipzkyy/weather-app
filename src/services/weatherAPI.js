@@ -2,8 +2,7 @@
 import axios from 'axios';
 
 // ✅ GUNAKAN INI - dari gambar terbaru Anda
-const API_KEY = 'a75dad8453ed0727f52ca8dee8b683d6';
-
+const API_KEY = process.env.REACT_APP_WEATHER_API_KEY || 'a75dad8453ed0727f52ca8dee8b683d6';
 const BASE_URL = 'https://api.openweathermap.org/data/2.5';
 
 const api = axios.create({
